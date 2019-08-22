@@ -1,0 +1,70 @@
+body
+	position relative
+	min-width 320px
+	width 100%
+	color black
+	font-weight 400
+
+	&.fixed
+		overflow hidden
+
+
+html
+	font-family Montserrat, Arial, sans-serif
+	font-size 62.5%
+	line-height 1.4
+	letter-spacing 0
+	min-width 320px
+	margin-left auto
+	margin-right auto
+
+
+
+.section
+	padding-top 77px
+
+	&-title
+		text-transform uppercase
+		color #000000
+		font-size 34px
+		font-weight 700
+		line-height 40px
+		padding-bottom 43px
+		+to-width(640px)
+			text-align center
+		+to-width(420px)
+			font-size 26px
+			line-height 32px
+			padding-bottom 30px
+
+	&-text
+		color #848484
+		font-size 22px
+		font-weight 400
+		line-height 36px
+		text-align center
+		max-width 800px
+		margin 0 auto
+		+to-width(992px)
+			font-size 18px
+			line-height 32px
+		+to-width(640px)
+			font-size 14px
+			line-height 26px
+
+.wrap
+	position relative
+	padding 0 30px
+	width 100%
+	margin-left auto
+	margin-right auto
+	max-width 1260px
+	+to-width(767px)
+		padding 0 20px
+
+.main
+	display flex
+	flex-direction column
+	min-height 100vh
+	position relative
+	z-index 2

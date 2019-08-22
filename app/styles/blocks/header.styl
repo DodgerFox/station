@@ -1,0 +1,58 @@
+.header
+  position absolute
+  z-index 10
+  left 0
+  right 0
+  top 0
+  t()
+
+  .wrap
+    display flex
+    justify-content space-between
+    align-items center
+    height 100%
+
+
+  &-gamburger
+    position absolute
+    top 5px
+    right 30px
+    cursor pointer
+    width 25px
+    height 26px
+    display none
+    min-width 24px
+    +to-width(992px)
+      display block
+    +to-width(767px)
+      right 20px
+      top -2px
+
+    &__item
+      position absolute
+      left 0
+      top 6px
+      height 4px
+      background-color #a4a4a4
+      border-radius 3px
+      right 0
+      transition 0.3s all
+      &:nth-child(2)
+        top 15px
+      &:last-child
+        top 24px
+
+    &.active
+      .header-gamburger__item
+        background-color #141414
+        &:nth-child(1)
+          transform rotate(-45deg)
+          top 18px
+        &:nth-child(2)
+          transform rotate(45deg)
+          top 18px
+        &:last-child
+          opacity 0
+
+    &:hover
+      cursor pointer
