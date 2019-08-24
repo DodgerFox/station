@@ -5,5 +5,5 @@ window.onload = () => {
 }
 
 let xui = () => {
-  alert('Main script is here!')
+  // alert('Main script is here!')
 }

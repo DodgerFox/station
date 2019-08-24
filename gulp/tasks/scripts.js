@@ -1,7 +1,7 @@
 const gulp          = require('gulp'),
       plumber       = require('gulp-plumber'),
       rigger       = require('gulp-rigger'),
-      minify       = require('gulp-minify'),
+      uglify       = require('gulp-uglify-es').default,
       errorHandler  = require('../errorHandler'),
       pkg           = require('../../package.json');
 
@@ -11,6 +11,6 @@ gulp.task('scripts', async () => {
     errorHandler: errorHandler
   }))
   .pipe(rigger())
-  .pipe(minify())
+  .pipe(uglify())
   .pipe(gulp.dest('dist/assets/srcipts'))
 });

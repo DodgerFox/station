@@ -9,7 +9,7 @@ module.exports = {
 	scripts: 'dist/assets/scripts',
 	styles: 'dist/assets/styles',
 	vendor: '../vendor/',
-	components: 'components/',
+	components: 'node_modules/',
 	appScripts: 'app/scripts/'
 
 };
