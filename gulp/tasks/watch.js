@@ -7,7 +7,8 @@ gulp.task('watch', () => {
 
 		const styl = gulp.watch('app/styles/**/*.styl'),
 					pug = gulp.watch('app/templates/**/*.pug'),
-					scripts = gulp.watch('app/scripts/**/*.js');
+					scripts = gulp.watch('app/scripts/**/*.js'),
+					data = gulp.watch('app/data/**/*.json');
 
 		styl.on('change', (path, stats) => {
 		  console.log(`File ${path} was changed`);
@@ -22,6 +23,11 @@ gulp.task('watch', () => {
 		scripts.on('change', (path, stats) => {
 		  console.log(`File ${path} was changed`);
 				return runSequence('scripts')
+				reload
+		});
+		data.on('change', (path, stats) => {
+		  console.log(`File ${path} was changed`);
+				return runSequence('data')
 				reload
 		});
 

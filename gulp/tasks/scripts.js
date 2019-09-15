@@ -12,5 +12,5 @@ gulp.task('scripts', async () => {
   }))
   .pipe(rigger())
   .pipe(uglify())
-  .pipe(gulp.dest('dist/assets/srcipts'))
+  .pipe(gulp.dest('dist/assets/scripts'))
 });

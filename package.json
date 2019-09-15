@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Template for creating new frontend projects.",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "matter-js": "^0.14.2"
+  },
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "del": "^5.1.0",

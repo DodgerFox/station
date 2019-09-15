@@ -6,9 +6,14 @@ block content
 	include ../blocks/header
 	
 	main.main
-		include ../blocks/welcome
-
-	include ../blocks/footer
+		#app
+		.title
+			h1.title__text Перетащи фигуру в центр
+		.area
+			.area__circle
+		include ../blocks/info
+	//- 
+	//- include ../blocks/footer
 
 	+script('common.min')
 	+script('main')

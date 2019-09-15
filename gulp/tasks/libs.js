@@ -5,10 +5,10 @@ const
 	errorHandler  = require('../errorHandler'),
 	component			= require('../pathFinder').component;
 
-gulp.task('libs', async () => {
+gulp.task('libs', () => {
 	return gulp.src([
 			component('jquery/dist/jquery.min.js'),
-			// component('svgxuse/svgxuse.min.js'),
+			component('matter-js/build/matter.min.js'),
 			// component('devicejs/lib/device.min.js'),
 			//component('jquery.csssr.validation/jquery.csssr.validation.js'),
 			//component('malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js'),
@@ -25,5 +25,5 @@ gulp.task('libs', async () => {
 			errorHandler: errorHandler
 	}))
 		.pipe(concat('common.min.js'))
-		.pipe(gulp.dest('dist/assets/srcipts'));
+		.pipe(gulp.dest('dist/assets/scripts'));
 });

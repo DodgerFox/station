@@ -4,7 +4,7 @@ browserSync = require('browser-sync');
 gulp        = require('gulp');
 gutil       = require('gulp-util');
 
-gulp.task('browserSync', function() {
+gulp.task('browserSync', () => {
 	return browserSync({
 		files: ['dist/**/*'],
 		open: !!gutil.env.open,
