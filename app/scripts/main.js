@@ -2,14 +2,21 @@
 
 window.onload = () => {
   menu()
-  dataBodies()
+  // app()
 }
 
+let arrayBodies;
+fetch('assets/data/bodies.json').then(function(response) {
+  response.json().then(function(arrayBodies) {
+    app(arrayBodies)
+  })
+})
 
-let dataBodies = () => {
+// canvas here
+let app = (arrayBodies) => {
 
 // module aliases
-var Engine = Matter.Engine,
+const Engine = Matter.Engine,
      Render = Matter.Render,
      Runner = Matter.Runner,
      Composite = Matter.Composite,
@@ -19,14 +26,14 @@ var Engine = Matter.Engine,
      Mouse = Matter.Mouse,
      World = Matter.World,
      Events = Matter.Events,
-     Bodies = Matter.Bodies;
+     Bodies = Matter.Bodies,
+     engine = Engine.create(),
+     app = document.getElementById('app');
 
-// create an engine
-var engine = Engine.create();
-const app = document.getElementById('app');
+let newBodies = [];
 
 // create a renderer
-var render = Render.create({
+const render = Render.create({
     element: app,
     engine: engine,
     options: {
@@ -37,44 +44,17 @@ var render = Render.create({
      }
 });
 
-var mouseConstraint = Matter.MouseConstraint.create(engine, {
+const mouseConstraint = Matter.MouseConstraint.create(engine, {
     element: render.canvas
 });
 
 
-let arrayBodies;
-let newBodies = [];
-const xhr = new XMLHttpRequest();
-
-    xhr.open('GET', 'assets/data/bodies.json', false);
-    xhr.send();
-
-    if (xhr.status != 200) {
-      // обработать ошибку
-      alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
-    } else {
-      // вывести результат
-      const bodies = xhr.responseText;
-
-      // console.log(bodies);
-
-      JSON.parse(bodies, function(key, value) {
-        // console.log('key '+key);
-        // console.log(value.circleA);
-        arrayBodies = value;
-
-        return value;
-      });
-    }
-
-
-
+// создание фигур
 for (var bodie in arrayBodies) {
   var value = arrayBodies[bodie];
 
-  // console.log(index);
   switch(value.type) {
-    case 'circle':  // if (x === 'value1')
+    case 'circle':  // если круг
       var newBodie = Bodies.circle(value.posX, value.posY, value.size, {
         collisionFilter:{
           mask: 0x0001
@@ -86,7 +66,7 @@ for (var bodie in arrayBodies) {
       newBodies.push(newBodie)
       break;
 
-    case 'rectangle':  // if (x === 'value1')
+    case 'rectangle':  // если квадрат
       var newBodie = Bodies.rectangle(value.posX, value.posY, value.width, value.height, {
         collisionFilter:{
           mask: 0x0001
@@ -98,7 +78,7 @@ for (var bodie in arrayBodies) {
       newBodies.push(newBodie)
       break;
 
-    case 'trapezoid':  // if (x === 'value1')
+    case 'trapezoid':  // если трапеция
       var newBodie = Bodies.trapezoid(value.posX, value.posY, value.width, value.height, value.slope, {
         collisionFilter:{
           mask: 0x0001
@@ -110,7 +90,7 @@ for (var bodie in arrayBodies) {
       newBodies.push(newBodie)
       break;
 
-    case 'polygon':  // if (x === 'value1')
+    case 'polygon':  // если многоугольная фигура
       var newBodie = Bodies.polygon(value.posX, value.posY, value.sides, value.size, {
         collisionFilter:{
           mask: 0x0001
@@ -126,32 +106,19 @@ for (var bodie in arrayBodies) {
       console.log('default');
       break;
   }
-  // bodie = +code; ..если нам нужно именно число, преобразуем: "+7" -> 7
 
-  // console.log( bodie + ": " + value ); // 7, 38, 1 во всех браузерах
 }
 
-
-// create two boxes and a ground
-var boxA = Bodies.rectangle(400, 200, 80, 80, {
-    render: {
-         fillStyle: 'white',
-         strokeStyle: 'blue',
-         lineWidth: 0
-    }
-});
-
-
+// обьявление статических обьектов (земля, стены)
 const statPosX = window.innerWidth/2.5;
 var ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight, window.innerWidth, 40, { isStatic: true });
 var groundA = Bodies.rectangle(-20, window.innerHeight, 40, window.innerHeight * 2, { isStatic: true });
 var groundB = Bodies.rectangle(window.innerWidth + 20, window.innerHeight, 40, window.innerHeight * 2, { isStatic: true });
-var centre = Bodies.circle(window.innerWidth/2, window.innerHeight/2-50, 100, {collisionFilter: {category: 0x0002}, isStatic: true});
 
 
 
 newBodies.push(ground, groundA, groundB)
-// add all of the bodies to the world
+// добавляем все объекты в мир
 World.add(engine.world, newBodies);
 World.add(engine.world, mouseConstraint);
 
@@ -160,6 +127,7 @@ Engine.run(engine);
 
 // run the renderer
 Render.run(render);
+const mouse = Mouse.create(render.canvas);
 
 const infoBody = document.querySelector('.content'),
       title = document.querySelector('.content-title'),
@@ -169,46 +137,8 @@ infoBody.addEventListener('click', () => {
   infoBody.classList.toggle('open')
 })
 
-// Events.on(engine, 'collisionStart', function(event) {
-//         var pairs = event.pairs;
-//         let index = 0;
-//         for (var i = 0, j = pairs.length; i != j; ++i) {
-//             var pair = pairs[i];
-//             // console.log(pairs[i]);
-//             // console.log('collision!');
-//
-//             if (pair.bodyA === centre) {
-//                 // pair.bodyB.render.strokeStyle = redColor;
-//             } else if (pair.bodyB === centre) {
-//               console.log(pair.bodyB);
-//                 let iden = pair.bodyA.id - 1;
-//                 for (var bodie in arrayBodies) {
-//                   var value = arrayBodies[bodie];
-//                   index++;
-//                   if (index === iden) {
-//                     console.log(value.title + value.text);
-//                     title.innerHTML = value.title;
-//                     text.innerHTML = value.text;
-//                     infoBody.style.backgroundColor = value.color
-//                     infoBody.classList.toggle('open')
-//                   }
-//                 }
-//             }
-//         }
-//     });
 
-var mouse = Mouse.create(render.canvas),
-    mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-            stiffness: 0.2,
-            render: {
-                visible: false
-            }
-        }
-    });
 
-    World.add(engine.world, mouseConstraint);
 
     // keep the mouse in sync with rendering
     render.mouse = mouse;
@@ -294,6 +224,9 @@ var mouse = Mouse.create(render.canvas),
     // }, 2000)
 
 }
+
+// opening tools panel
+
 let menu = () => {
   const button = document.querySelector('.header-gamburger'),
   menu = document.querySelector('.nav');
